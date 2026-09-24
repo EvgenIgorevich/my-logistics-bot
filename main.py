@@ -7,9 +7,16 @@ import re
 import os
 
 # --- 1. НАСТРОЙКА ---
-# Токен теперь берется ТОЛЬКО из защищенных настроек проекта (Settings -> Secrets)
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TG_CHAT_ID = os.environ.get("TG_CHAT_ID") 
+
+if not TELEGRAM_TOKEN or not TG_CHAT_ID:
+    print("КРИТИЧЕСКАЯ ОШИБКА: Не найдены SECRETS.")
+    exit()
+
+# === ДОБАВЬТЕ ЭТУ СТРОКУ ДЛЯ ПРОВЕРКИ ===
+print(f"ИСПОЛЬЗУЕМЫЙ ТОКЕН: {TELEGRAM_TOKEN}")
+
 
 # Проверка: если секреты не найдены, бот остановится с ошибкой в логах
 if not TELEGRAM_TOKEN or not TG_CHAT_ID:
