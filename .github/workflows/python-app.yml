@@ -1,0 +1,28 @@
+name: Logistics Bot Runner
+
+on:
+  schedule:
+    - cron: '0 7 * * 3' # Каждую среду в 10:00 по Москве (UTC+3 это 07:00 UTC)
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    env:
+      TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }} # Берем ID чата из секретов
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install requests beautifulsoup4 schedule torch transformers sentencepiece
+
+    - name: Run the bot script
+      run: python main.py
