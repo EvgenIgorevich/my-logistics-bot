@@ -7,9 +7,14 @@ import re
 import os
 
 # --- 1. НАСТРОЙКА ---
-TELEGRAM_TOKEN = "8734739136:AAEpqPB0rMzobwTgF1qX1rESgAovkX9oTCI"
-# Сюда вставьте ID Группы, который вы найдете (например -1001234567890)
+# Токен теперь берется ТОЛЬКО из защищенных настроек проекта (Settings -> Secrets)
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TG_CHAT_ID = os.environ.get("TG_CHAT_ID") 
+
+# Проверка: если секреты не найдены, бот остановится с ошибкой в логах
+if not TELEGRAM_TOKEN or not TG_CHAT_ID:
+    print("КРИТИЧЕСКАЯ ОШИБКА: Не найдены SECRETS 'TELEGRAM_TOKEN' или 'TG_CHAT_ID'. Проверьте настройки.")
+    exit() # Останавливаем работу, чтобы не было ошибок дальше
 
 NEWS_SOURCES = [
     {"name": "РБК Транспорт", "url": "https://www.rbc.ru/tags/?tag=%D0%BB%D0%BE%D0%B3%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B8-%D1%82%D1%80%D0%B0%D0%BD%D1%81%D0%BF%D0%BE%D1%80%D1%82"},
