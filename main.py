@@ -7,7 +7,7 @@ import re
 import os
 
 # --- 1. НАСТРОЙКА ---
-TELEGRAM_TOKEN = "8734739136:AAEpqPB0rMzobwTgF1qX1rESgAovkX9oTCI"
+TELEGRAM_TOKEN = "8734739136:AAFPitxnE8fvzr_wu1BpQJeZD8FG_vFz9Bo"
 # Сюда вставьте ID Группы, который вы найдете (например -1001234567890)
 TG_CHAT_ID = os.environ.get("TG_CHAT_ID") 
 
