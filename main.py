@@ -1,16 +1,33 @@
+python
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 import re
 import os
 
-# --- 1. НАСТРОЙКА ---
-# Токен берем из Secrets GitHub
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
-# Chat ID Группы С ПРЕФИКСОМ -100 (взято из ваших тестов)
-TG_CHAT_ID = "-1004421613528"
+--- 1. НАСТРОЙКА ---
+
+print("=== ДИАГНОСТИКА СЕКРЕТОВ ===")
+token_from_env = os.environ.get("TG_BOT_TOKEN")
+chat_from_env = os.environ.get("TG_CHAT_ID")
+
+print(f"Что прочитали для TOKEN: '{token_from_env}'")
+print(f"Что прочитали для CHAT_ID: '{chat_from_env}'")
+
+if not token_from_env or not chat_from_env:
+    print("КРИТИЧЕСКАЯ ОШИБКА: Переменные пришли пустыми!")
+else:
+    print("SUCCESS: Секреты успешно считаны.")
+
+TELEGRAM_TOKEN = token_from_env
+TG_CHAT_ID = chat_from_env
+
+conn = sqlite3.connect("/tmp/news.db")
+cursor = conn.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS news (id INTEGER PRIMARY KEY, url TEXT UNIQUE)''')
+conn.commit()
 
 NEWS_SOURCES = [
     {"name": "РБК Транспорт", "url": "https://www.rbc.ru/tags/?tag=%D0%BB%D0%BE%D0%B3%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0-%D0%B8-%D1%82%D1%80%D0%B0%D0%BD%D1%81%D0%BF%D0%BE%D1%80%D1%82"},
